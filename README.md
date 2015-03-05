@@ -10,7 +10,7 @@ gradle --daemon  cleanTest test
 
 Test with maven:
 ```
-mvn -P wildfly-remote clean
+mvn -P wildfly-remote test
 ```
 
 This part is missing in gradle test:
