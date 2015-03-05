@@ -1,0 +1,102 @@
+plugins {
+	id 'java'
+	id 'maven'
+	id 'war'
+    id "io.spring.dependency-management" version "0.4.0.RELEASE"
+}
+
+
+version="0.1.0"
+group = 'org.eu.ingwar.tools'
+
+description = """Test/arquillian suite/wildlfy"""
+
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+project.setBuildDir 'target/build'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+//versions used
+ext {
+    versions = [
+            jboss : [
+                    //home:'/opt/devel/jboss/jboss-eap-6.3-dev',
+                    home       : '/opt/devel/jboss/wildfly-8.2.0.Final',
+                    bom        : '8.2.0.Final',
+                    javaee_spec: '1.0.0.Final'
+            ],
+            arq   : [bom  : '1.1.7.Final',
+                     ext: [
+                             jta: '1.0.1.Final',
+                             pers: '1.0.0.Alpha7'
+                     ]
+            ],
+            shrink: '2.2.0-beta-1'
+
+    ]
+}
+
+
+
+dependencyManagement {
+    imports {
+            project.logger.quiet "BOM's for JAVA EE v.7"
+            //mavenBom "org.wildfly.bom:jboss-javaee-7.0-with-tools:${project.versions.jboss.bom}"
+            //mavenBom "org.wildfly.bom:jboss-javaee-7.0-with-hibernate:${project.versions.jboss.bom}"
+            mavenBom "org.jboss.arquillian:arquillian-bom:${project.versions.arq.bom}"
+            //mavenBom "com.google.guava:guava:18.0"
+    }
+}
+
+
+
+
+dependencies {
+    //providedCompile "org.jboss.spec:jboss-javaee-7.0:${project.versions.jboss.javaee_spec}"
+    providedCompile "org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:1.0.0.Final"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    testCompile "org.jboss.arquillian.container:arquillian-container-test-impl-base"
+    testCompile "org.jboss.arquillian.core:arquillian-core-impl-base"
+    testCompile "org.jboss.arquillian.protocol:arquillian-protocol-servlet"
+    testCompile "org.jboss.arquillian.junit:arquillian-junit-container"
+    //test suite
+    testCompile ('org.eu.ingwar.tools:arquillian-suite-extension:1.1.2') {
+        exclude module:'shrinkwrap-resolver-impl-maven'
+        exclude module:'shrinkwrap-resolver-impl-maven-archive'
+    }
+
+    //testCompile 'org.wildfly:wildfly-arquillian-container-managed:8.2.0.Final'
+    testCompile 'org.wildfly:wildfly-arquillian-container-remote:8.2.0.Final'
+
+    testCompile 'org.slf4j:slf4j-log4j12:latest.release'
+
+    testCompile "org.reflections:reflections:0.9.8"
+    testCompile "com.google.guava:guava:18.0"
+
+}
+
+
+
+//System.env.JBOSS_HOME= jboss_home
+test {
+    testLogging.showStandardStreams = true
+    jvmArgs '-XX:MaxPermSize=512m'
+    jvmArgs '-Darquillian.debug=true'
+    jvmArgs '-Darquillian.launch=standalone'
+
+
+    useJUnit {
+        environment 'JBOSS_HOME', project.versions.jboss.home
+    }
+
+}
+
+

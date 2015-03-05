@@ -1,0 +1,8 @@
+*.ignore*
+.gradle*
+*/build/
+*/target/
+*.log
+*/.nb-gradle/private/
+.idea
+classes
