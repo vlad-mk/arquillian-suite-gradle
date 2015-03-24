@@ -1,0 +1,470 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Arquillian suite extension 1.1.3-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.2:enforce (enforce-maven) @ arquillian-suite-extension ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ arquillian-suite-extension ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/vlad/tmp/xxx/arquillian-suite-gradle/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ arquillian-suite-extension ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ arquillian-suite-extension ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ arquillian-suite-extension ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 13 source files to /home/vlad/tmp/xxx/arquillian-suite-gradle/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.16:test (default-test) @ arquillian-suite-extension ---
+[INFO] Surefire report directory: /home/vlad/tmp/xxx/arquillian-suite-gradle/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest
+(E) ManagerProcessing
+	(O) LoadableExtensionLoader.load
+	(E) ServiceRegistryLoader
+(E) ManagerStarted
+	(O) ConfigurationRegistrar.loadConfiguration
+	(E) ArquillianDescriptorImpl
+		(O) ContainerRegistryCreator.createRegistry
+		(E) LocalContainerRegistry
+		(O) ProtocolRegistryCreator.createRegistry
+		(E) ProtocolRegistry
+(E) BeforeSuite
+	(I) TestContextHandler.createSuiteContext
+	(O) ContainerEventController.execute
+	(E) SetupContainers
+		(O) ContainerLifecycleController.setupContainers
+		(E) SetupContainer
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(O) ContainerLifecycleController.setupContainer
+			(E) BeforeSetup
+				(O) ServerKillerExtension.beforeSuite
+			(E) ContainerImpl
+Mar 24, 2015 12:26:42 PM org.jboss.arquillian.container.impl.MapObject populate
+WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+Unused property entries: {javaVmArguments=${env.ARQ_JVM_ARGS}, allowConnectingToRunningServer=true, jbossHome=/opt/devel/jboss/jboss-eap-6.3-dev}
+Supported property names: [managementPort, username, managementAddress, managementProtocol, password]
+			(E) AfterSetup
+		(O) ClientDeployerCreator.createClientSideDeployer
+		(E) ClientDeployer
+		(O) ClientContainerControllerCreator.createClientSideContainerController
+		(E) ClientContainerController
+	(E) StartSuiteContainers
+		(O) ContainerLifecycleController.startSuiteContainers
+		(E) StartContainer
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(O) ContainerLifecycleController.startContainer
+			(E) BeforeStart
+			(E) ManagementClient
+			(E) ArchiveDeployer
+			(E) InitialContext
+			(E) AfterStart
+	(O) SuiteDeployer.startup
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Catching AfterStart event org.jboss.arquillian.test.spi.event.suite.BeforeSuite@15d0e248
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: NOT Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@37760a63
+		(O) DeploymentGenerator.generateDeployment
+		(E) DeploymentScenario
+	(E) DeploymentScenario
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@552ee43b
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: NOT Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@798a092d
+		(O) ContainerDeployController.deployManaged
+		(E) DeployDeployment
+			(I) DeploymentExceptionHandler.verifyExpectedExceptionDuringDeploy
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(I) ContainerDeploymentContextHandler.createDeploymentContext
+			(O) ContainerDeployController.deploy
+			(E) DeploymentDescription
+			(E) Deployment
+			(E) BeforeDeploy
+				(O) ArchiveDeploymentToolingExporter.export
+				(O) ServerSetupObserver.handleBeforeDeployment
+				(O) ArquillianServiceDeployer.doServiceDeploy
+				(O) ArchiveDeploymentExporter.callback
+Mar 24, 2015 12:26:43 PM org.xnio.Xnio <clinit>
+INFO: XNIO version 3.2.0.Beta4
+Mar 24, 2015 12:26:43 PM org.xnio.nio.NioXnio <clinit>
+INFO: XNIO NIO Implementation Version 3.2.0.Beta4
+Mar 24, 2015 12:26:43 PM org.jboss.remoting3.EndpointImpl <clinit>
+INFO: JBoss Remoting version (unknown)
+			(E) ProtocolMetaData
+			(E) AfterDeploy
+		(E) DeployDeployment
+			(I) DeploymentExceptionHandler.verifyExpectedExceptionDuringDeploy
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(I) ContainerDeploymentContextHandler.createDeploymentContext
+			(O) ContainerDeployController.deploy
+			(E) DeploymentDescription
+			(E) Deployment
+			(E) BeforeDeploy
+				(O) ArchiveDeploymentToolingExporter.export
+				(O) ServerSetupObserver.handleBeforeDeployment
+				(O) ArquillianServiceDeployer.doServiceDeploy
+				(O) ArchiveDeploymentExporter.callback
+			(E) ProtocolMetaData
+			(E) AfterDeploy
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+afterClass
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@23cd4638
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.451 sec - in org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest
+Running org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@534a5d1b
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@3726c255
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@7dd5a2ff
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 sec - in org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test
+Running org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@10cc2e89
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@4d032cfc
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+afterClass
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@a2d3acd
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.225 sec - in org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test
+Running org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@1f6f6df3
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@4c9b7ca4
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+afterClass
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@2d22bfc8
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 sec - in org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test
+Running org.eu.ingwar.tools.arquillian.extension.deployment.ModuleTypeTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec - in org.eu.ingwar.tools.arquillian.extension.deployment.ModuleTypeTest
+(E) AfterSuite
+	(I) TestContextHandler.createSuiteContext
+	(O) ContainerEventController.execute
+	(E) StopSuiteContainers
+		(O) ContainerLifecycleController.stopSuiteContainers
+		(E) StopContainer
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(O) ContainerLifecycleController.stopContainer
+			(E) BeforeStop
+				(O) ArquillianServiceDeployer.undeploy
+				(O) SuiteDeployer.undeploy
+Mar 24, 2015 12:26:54 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Catching BeforeStop event org.jboss.arquillian.container.spi.event.container.BeforeStop@6a3e1661
+				(E) UnDeployManagedDeployments
+					(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:54 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: NOT Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@122f70c5
+					(O) ContainerDeployController.undeployManaged
+					(E) UnDeployDeployment
+						(I) ContainerDeploymentContextHandler.createContainerContext
+						(I) ContainerDeploymentContextHandler.createDeploymentContext
+						(O) ContainerDeployController.undeploy
+						(E) BeforeUnDeploy
+						(E) AfterUnDeploy
+							(O) ServerSetupObserver.handleAfterUndeploy
+					(E) UnDeployDeployment
+						(I) ContainerDeploymentContextHandler.createContainerContext
+						(I) ContainerDeploymentContextHandler.createDeploymentContext
+						(O) ContainerDeployController.undeploy
+						(E) BeforeUnDeploy
+						(E) AfterUnDeploy
+							(O) ServerSetupObserver.handleAfterUndeploy
+			(E) AfterStop
+	(O) ServerKillerExtension.throwErrpr
+(E) ManagerStopping
+
+Results :
+
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 21.282 s
+[INFO] Finished at: 2015-03-24T12:26:54+01:00
+[INFO] Final Memory: 25M/273M
+[INFO] ------------------------------------------------------------------------

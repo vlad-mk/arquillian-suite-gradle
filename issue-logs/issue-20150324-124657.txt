@@ -1,0 +1,1218 @@
+Hello,
+
+do you have any idea, why undeployment in the suite extension works from maven, but nor from gradle?
+It looks like a bug.
+
+Here are logs for my simple test project, tested with a remote wildfly server:
+
+Maven:
+```
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Arquillian suite extension 1.1.3-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.2:enforce (enforce-maven) @ arquillian-suite-extension ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ arquillian-suite-extension ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/vlad/tmp/xxx/arquillian-suite-gradle/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ arquillian-suite-extension ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ arquillian-suite-extension ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ arquillian-suite-extension ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 13 source files to /home/vlad/tmp/xxx/arquillian-suite-gradle/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.16:test (default-test) @ arquillian-suite-extension ---
+[INFO] Surefire report directory: /home/vlad/tmp/xxx/arquillian-suite-gradle/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest
+(E) ManagerProcessing
+	(O) LoadableExtensionLoader.load
+	(E) ServiceRegistryLoader
+(E) ManagerStarted
+	(O) ConfigurationRegistrar.loadConfiguration
+	(E) ArquillianDescriptorImpl
+		(O) ContainerRegistryCreator.createRegistry
+		(E) LocalContainerRegistry
+		(O) ProtocolRegistryCreator.createRegistry
+		(E) ProtocolRegistry
+(E) BeforeSuite
+	(I) TestContextHandler.createSuiteContext
+	(O) ContainerEventController.execute
+	(E) SetupContainers
+		(O) ContainerLifecycleController.setupContainers
+		(E) SetupContainer
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(O) ContainerLifecycleController.setupContainer
+			(E) BeforeSetup
+				(O) ServerKillerExtension.beforeSuite
+			(E) ContainerImpl
+Mar 24, 2015 12:26:42 PM org.jboss.arquillian.container.impl.MapObject populate
+WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+Unused property entries: {javaVmArguments=${env.ARQ_JVM_ARGS}, allowConnectingToRunningServer=true, jbossHome=/opt/devel/jboss/jboss-eap-6.3-dev}
+Supported property names: [managementPort, username, managementAddress, managementProtocol, password]
+			(E) AfterSetup
+		(O) ClientDeployerCreator.createClientSideDeployer
+		(E) ClientDeployer
+		(O) ClientContainerControllerCreator.createClientSideContainerController
+		(E) ClientContainerController
+	(E) StartSuiteContainers
+		(O) ContainerLifecycleController.startSuiteContainers
+		(E) StartContainer
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(O) ContainerLifecycleController.startContainer
+			(E) BeforeStart
+			(E) ManagementClient
+			(E) ArchiveDeployer
+			(E) InitialContext
+			(E) AfterStart
+	(O) SuiteDeployer.startup
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Catching AfterStart event org.jboss.arquillian.test.spi.event.suite.BeforeSuite@15d0e248
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: NOT Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@37760a63
+		(O) DeploymentGenerator.generateDeployment
+		(E) DeploymentScenario
+	(E) DeploymentScenario
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@552ee43b
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:42 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: NOT Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@798a092d
+		(O) ContainerDeployController.deployManaged
+		(E) DeployDeployment
+			(I) DeploymentExceptionHandler.verifyExpectedExceptionDuringDeploy
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(I) ContainerDeploymentContextHandler.createDeploymentContext
+			(O) ContainerDeployController.deploy
+			(E) DeploymentDescription
+			(E) Deployment
+			(E) BeforeDeploy
+				(O) ArchiveDeploymentToolingExporter.export
+				(O) ServerSetupObserver.handleBeforeDeployment
+				(O) ArquillianServiceDeployer.doServiceDeploy
+				(O) ArchiveDeploymentExporter.callback
+Mar 24, 2015 12:26:43 PM org.xnio.Xnio <clinit>
+INFO: XNIO version 3.2.0.Beta4
+Mar 24, 2015 12:26:43 PM org.xnio.nio.NioXnio <clinit>
+INFO: XNIO NIO Implementation Version 3.2.0.Beta4
+Mar 24, 2015 12:26:43 PM org.jboss.remoting3.EndpointImpl <clinit>
+INFO: JBoss Remoting version (unknown)
+			(E) ProtocolMetaData
+			(E) AfterDeploy
+		(E) DeployDeployment
+			(I) DeploymentExceptionHandler.verifyExpectedExceptionDuringDeploy
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(I) ContainerDeploymentContextHandler.createDeploymentContext
+			(O) ContainerDeployController.deploy
+			(E) DeploymentDescription
+			(E) Deployment
+			(E) BeforeDeploy
+				(O) ArchiveDeploymentToolingExporter.export
+				(O) ServerSetupObserver.handleBeforeDeployment
+				(O) ArquillianServiceDeployer.doServiceDeploy
+				(O) ArchiveDeploymentExporter.callback
+			(E) ProtocolMetaData
+			(E) AfterDeploy
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+afterClass
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@23cd4638
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.451 sec - in org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest
+Running org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@534a5d1b
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@3726c255
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@7dd5a2ff
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 sec - in org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test
+Running org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@10cc2e89
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@4d032cfc
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+afterClass
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@a2d3acd
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.225 sec - in org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test
+Running org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test
+(E) BeforeClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ContainerEventController.execute
+	(E) StartClassContainers
+		(O) ContainerLifecycleController.startClassContainers
+	(E) GenerateDeployment
+		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@1f6f6df3
+	(E) DeployManagedDeployments
+		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@4c9b7ca4
+	(O) ContainerRestarter.restart
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) BeforeRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Before
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createBeforeContext
+	(O) TestInstanceEnricher.enrich
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) Test
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) ContainerEventController.createTestContext
+	(O) ClientTestExecuter.execute
+	(E) RemoteExecutionEvent
+		(O) RemoteTestExecuter.execute
+		(E) TestResult
+(E) After
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) CreationalContextDestroyer.destory
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterRules
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(I) TestContextHandler.createTestContext
+	(I) UpdateTestResultBeforeAfter.update
+	(I) ContainerEventController.createAfterContext
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+(E) AfterClass
+	(I) TestContextHandler.createSuiteContext
+	(I) TestContextHandler.createClassContext
+	(E) TestClass
+	(O) ClientBeforeAfterLifecycleEventExecuter.on
+afterClass
+	(O) ContainerEventController.execute
+	(E) UnDeployManagedDeployments
+		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:53 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@2d22bfc8
+	(E) StopManualContainers
+		(O) ContainerLifecycleController.stopManualContainers
+	(E) StopClassContainers
+		(O) ContainerLifecycleController.stopClassContainers
+	(O) ServerSetupObserver.afterTestClass
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 sec - in org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test
+Running org.eu.ingwar.tools.arquillian.extension.deployment.ModuleTypeTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec - in org.eu.ingwar.tools.arquillian.extension.deployment.ModuleTypeTest
+(E) AfterSuite
+	(I) TestContextHandler.createSuiteContext
+	(O) ContainerEventController.execute
+	(E) StopSuiteContainers
+		(O) ContainerLifecycleController.stopSuiteContainers
+		(E) StopContainer
+			(I) ContainerDeploymentContextHandler.createContainerContext
+			(O) ContainerLifecycleController.stopContainer
+			(E) BeforeStop
+				(O) ArquillianServiceDeployer.undeploy
+				(O) SuiteDeployer.undeploy
+Mar 24, 2015 12:26:54 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: Catching BeforeStop event org.jboss.arquillian.container.spi.event.container.BeforeStop@6a3e1661
+				(E) UnDeployManagedDeployments
+					(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+Mar 24, 2015 12:26:54 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+WARNING: NOT Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@122f70c5
+					(O) ContainerDeployController.undeployManaged
+					(E) UnDeployDeployment
+						(I) ContainerDeploymentContextHandler.createContainerContext
+						(I) ContainerDeploymentContextHandler.createDeploymentContext
+						(O) ContainerDeployController.undeploy
+						(E) BeforeUnDeploy
+						(E) AfterUnDeploy
+							(O) ServerSetupObserver.handleAfterUndeploy
+					(E) UnDeployDeployment
+						(I) ContainerDeploymentContextHandler.createContainerContext
+						(I) ContainerDeploymentContextHandler.createDeploymentContext
+						(O) ContainerDeployController.undeploy
+						(E) BeforeUnDeploy
+						(E) AfterUnDeploy
+							(O) ServerSetupObserver.handleAfterUndeploy
+			(E) AfterStop
+	(O) ServerKillerExtension.throwErrpr
+(E) ManagerStopping
+
+Results :
+
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 21.282 s
+[INFO] Finished at: 2015-03-24T12:26:54+01:00
+[INFO] Final Memory: 25M/273M
+[INFO] ------------------------------------------------------------------------
+```
+
+Gradle : 
+
+```
+BOM's for JAVA EE v.7
+:compileJava UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:compileTestJava
+:processTestResources
+:testClasses
+:test
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    (E) ManagerProcessing
+    	(O) LoadableExtensionLoader.load
+    DEBUG org.reflections.Reflections: going to scan these urls:
+    	file:/home/vlad/tmp/xxx/arquillian-suite-gradle/target/build/classes/test/
+    	file:/home/vlad/tmp/xxx/arquillian-suite-gradle/target/build/resources/test/
+
+    INFO  org.reflections.Reflections: Reflections took 153 ms to scan 2 urls, producing 8 keys and 16 values 
+    	(E) ServiceRegistryLoader
+    DEBUG org.jboss.logging: Logging Provider: org.jboss.logging.Log4jLoggerProvider
+    (E) ManagerStarted
+    	(O) ConfigurationRegistrar.loadConfiguration
+    	(E) ArquillianDescriptorImpl
+    		(O) ContainerRegistryCreator.createRegistry
+    		(E) LocalContainerRegistry
+    		(O) ProtocolRegistryCreator.createRegistry
+    		(E) ProtocolRegistry
+    (E) BeforeSuite
+    	(I) TestContextHandler.createSuiteContext
+    	(O) ContainerEventController.execute
+    	(E) SetupContainers
+    		(O) ClientDeployerCreator.createClientSideDeployer
+    		(E) ClientDeployer
+    		(O) ClientContainerControllerCreator.createClientSideContainerController
+    		(E) ClientContainerController
+    		(O) ContainerLifecycleController.setupContainers
+    		(E) SetupContainer
+    			(I) ContainerDeploymentContextHandler.createContainerContext
+    			(O) ContainerLifecycleController.setupContainer
+    			(E) BeforeSetup
+    				(O) ServerKillerExtension.beforeSuite
+    			(E) ContainerImpl
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_ERROR
+    Mar 24, 2015 12:27:14 PM org.jboss.arquillian.container.impl.MapObject populate
+    WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+    Unused property entries: {javaVmArguments=${env.ARQ_JVM_ARGS}, allowConnectingToRunningServer=true, jbossHome=/opt/devel/jboss/wildfly-8.2.0.Final}
+    Supported property names: [managementPort, username, managementAddress, managementProtocol, password]
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    			(E) AfterSetup
+    	(E) StartSuiteContainers
+    		(O) ContainerLifecycleController.startSuiteContainers
+    		(E) StartContainer
+    			(I) ContainerDeploymentContextHandler.createContainerContext
+    			(O) ContainerLifecycleController.startContainer
+    			(E) BeforeStart
+    			(E) ManagementClient
+    			(E) ArchiveDeployer
+    			(E) InitialContext
+    			(E) AfterStart
+    	(O) SuiteDeployer.startup
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_ERROR
+    Mar 24, 2015 12:27:14 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Catching AfterStart event org.jboss.arquillian.test.spi.event.suite.BeforeSuite@439ddf4e
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    	(E) GenerateDeployment
+    		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_ERROR
+    Mar 24, 2015 12:27:14 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: NOT Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@dd4fe75
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    		(O) DeploymentGenerator.generateDeployment
+    		(E) DeploymentScenario
+    	(E) DeploymentScenario
+    (E) BeforeClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ContainerRestarter.restart
+    	(O) ContainerEventController.execute
+    	(E) StartClassContainers
+    		(O) ContainerLifecycleController.startClassContainers
+    	(E) GenerateDeployment
+    		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_ERROR
+    Mar 24, 2015 12:27:15 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@3851af4e
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    	(E) DeployManagedDeployments
+    		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_ERROR
+    Mar 24, 2015 12:27:15 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: NOT Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@7acc46c4
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    		(O) ContainerDeployController.deployManaged
+    		(E) DeployDeployment
+    			(I) ContainerDeploymentContextHandler.createDeploymentContext
+    			(I) ContainerDeploymentContextHandler.createContainerContext
+    			(I) DeploymentExceptionHandler.verifyExpectedExceptionDuringDeploy
+    			(O) ContainerDeployController.deploy
+    			(E) DeploymentDescription
+    			(E) Deployment
+    			(E) BeforeDeploy
+    				(O) ArquillianServiceDeployer.doServiceDeploy
+    				(O) ArchiveDeploymentToolingExporter.export
+    				(O) ServerSetupObserver.handleBeforeDeployment
+    				(O) ArchiveDeploymentExporter.callback
+    INFO  org.xnio: XNIO version 3.3.0.Final
+    INFO  org.xnio.nio: XNIO NIO Implementation Version 3.3.0.Final
+    DEBUG org.xnio.nio: Started channel thread 'Remoting "management-client" I/O-1', selector sun.nio.ch.EPollSelectorImpl@66cf439b
+    INFO  org.jboss.remoting: JBoss Remoting version 4.0.6.Final
+    DEBUG org.xnio.nio: Started channel thread 'Remoting "endpoint" I/O-1', selector sun.nio.ch.EPollSelectorImpl@12a83edb
+    DEBUG org.jboss.remotingjmx.VersionedConectionFactory: Available version (Versions  0x00 0x01)
+    DEBUG org.jboss.remotingjmx.VersionedConectionFactory: Calling a stable server
+    DEBUG org.jboss.remotingjmx.VersionedConectionFactory: Selecting version 0x00 to receive full version list.
+    DEBUG org.jboss.remotingjmx.VersionedConectionFactory: Available version (Versions  0x01 0x02)
+    DEBUG org.jboss.remotingjmx.VersionedConectionFactory: Calling a stable server
+    DEBUG org.jboss.remotingjmx.VersionedConectionFactory: Server version 2.0.0.Final
+    			(E) ProtocolMetaData
+    			(E) AfterDeploy
+    		(E) DeployDeployment
+    			(I) ContainerDeploymentContextHandler.createDeploymentContext
+    			(I) ContainerDeploymentContextHandler.createContainerContext
+    			(I) DeploymentExceptionHandler.verifyExpectedExceptionDuringDeploy
+    			(O) ContainerDeployController.deploy
+    			(E) DeploymentDescription
+    			(E) Deployment
+    			(E) BeforeDeploy
+    				(O) ArquillianServiceDeployer.doServiceDeploy
+    				(O) ArchiveDeploymentToolingExporter.export
+    				(O) ServerSetupObserver.handleBeforeDeployment
+    				(O) ArchiveDeploymentExporter.callback
+    			(E) ProtocolMetaData
+    			(E) AfterDeploy
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest > shouldInject STANDARD_OUT
+    (E) BeforeRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Before
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) TestInstanceEnricher.enrich
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Test
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createTestContext
+    	(O) ClientTestExecuter.execute
+    	(E) RemoteExecutionEvent
+    		(O) RemoteTestExecuter.execute
+    		(E) TestResult
+    (E) After
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) AfterRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    (E) AfterClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    afterClass
+    	(O) ServerSetupObserver.afterTestClass
+    	(O) ContainerEventController.execute
+    	(E) UnDeployManagedDeployments
+    		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_ERROR
+    Mar 24, 2015 12:27:23 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@abb9c4f
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest STANDARD_OUT
+    	(E) StopManualContainers
+    		(O) ContainerLifecycleController.stopManualContainers
+    	(E) StopClassContainers
+    		(O) ContainerLifecycleController.stopClassContainers
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_OUT
+    (E) BeforeClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ContainerRestarter.restart
+    	(O) ContainerEventController.execute
+    	(E) StartClassContainers
+    		(O) ContainerLifecycleController.startClassContainers
+    	(E) GenerateDeployment
+    		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_ERROR
+    Mar 24, 2015 12:27:23 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@260a905c
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_OUT
+    	(E) DeployManagedDeployments
+    		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_ERROR
+    Mar 24, 2015 12:27:23 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@7f8b9b86
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_OUT
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test > shouldInject STANDARD_OUT
+    (E) BeforeRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Before
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) TestInstanceEnricher.enrich
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Test
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createTestContext
+    	(O) ClientTestExecuter.execute
+    	(E) RemoteExecutionEvent
+    		(O) RemoteTestExecuter.execute
+    		(E) TestResult
+    (E) After
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) AfterRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_OUT
+    (E) AfterClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    	(O) ServerSetupObserver.afterTestClass
+    	(O) ContainerEventController.execute
+    	(E) UnDeployManagedDeployments
+    		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_ERROR
+    Mar 24, 2015 12:27:23 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@3a5b596
+
+org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test STANDARD_OUT
+    	(E) StopManualContainers
+    		(O) ContainerLifecycleController.stopManualContainers
+    	(E) StopClassContainers
+    		(O) ContainerLifecycleController.stopClassContainers
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_OUT
+    (E) BeforeClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ContainerRestarter.restart
+    	(O) ContainerEventController.execute
+    	(E) StartClassContainers
+    		(O) ContainerLifecycleController.startClassContainers
+    	(E) GenerateDeployment
+    		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_ERROR
+    Mar 24, 2015 12:27:23 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@6e09e82d
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_OUT
+    	(E) DeployManagedDeployments
+    		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_ERROR
+    Mar 24, 2015 12:27:23 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@4c6a1acb
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_OUT
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test > shouldInject STANDARD_OUT
+    (E) BeforeRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Before
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) TestInstanceEnricher.enrich
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Test
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createTestContext
+    	(O) ClientTestExecuter.execute
+    	(E) RemoteExecutionEvent
+    		(O) RemoteTestExecuter.execute
+    		(E) TestResult
+    (E) After
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) AfterRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_OUT
+    (E) AfterClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    afterClass
+    	(O) ServerSetupObserver.afterTestClass
+    	(O) ContainerEventController.execute
+    	(E) UnDeployManagedDeployments
+    		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_ERROR
+    Mar 24, 2015 12:27:24 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@3b381842
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test STANDARD_OUT
+    	(E) StopManualContainers
+    		(O) ContainerLifecycleController.stopManualContainers
+    	(E) StopClassContainers
+    		(O) ContainerLifecycleController.stopClassContainers
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_OUT
+    (E) BeforeClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ContainerRestarter.restart
+    	(O) ContainerEventController.execute
+    	(E) StartClassContainers
+    		(O) ContainerLifecycleController.startClassContainers
+    	(E) GenerateDeployment
+    		(I) SuiteDeployer.blockGenerateDeploymentWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_ERROR
+    Mar 24, 2015 12:27:24 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking GenerateDeployment event org.jboss.arquillian.container.test.impl.client.deployment.event.GenerateDeployment@6443ea37
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_OUT
+    	(E) DeployManagedDeployments
+    		(I) SuiteDeployer.blockDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_ERROR
+    Mar 24, 2015 12:27:24 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking DeployManagedDeployments event org.jboss.arquillian.container.spi.event.DeployManagedDeployments@26c5f44e
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_OUT
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test > shouldInject STANDARD_OUT
+    (E) BeforeRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Before
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createBeforeContext
+    	(O) TestInstanceEnricher.enrich
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) Test
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) ContainerEventController.createTestContext
+    	(O) ClientTestExecuter.execute
+    	(E) RemoteExecutionEvent
+    		(O) RemoteTestExecuter.execute
+    		(E) TestResult
+    (E) After
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    (E) AfterRules
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(I) TestContextHandler.createTestContext
+    	(I) UpdateTestResultBeforeAfter.update
+    	(I) ContainerEventController.createAfterContext
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_OUT
+    (E) AfterClass
+    	(I) TestContextHandler.createSuiteContext
+    	(I) TestContextHandler.createClassContext
+    	(E) TestClass
+    	(O) ClientBeforeAfterLifecycleEventExecuter.on
+    afterClass
+    	(O) ServerSetupObserver.afterTestClass
+    	(O) ContainerEventController.execute
+    	(E) UnDeployManagedDeployments
+    		(I) SuiteDeployer.blockUnDeployManagedDeploymentsWhenNeeded
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_ERROR
+    Mar 24, 2015 12:27:24 PM org.eu.ingwar.tools.arquillian.extension.suite.ArquillianSuiteExtension$SuiteDeployer debug
+    WARNING: Blocking UnDeployManagedDeployments event org.jboss.arquillian.container.spi.event.UnDeployManagedDeployments@e4f12ec
+
+org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test STANDARD_OUT
+    	(E) StopManualContainers
+    		(O) ContainerLifecycleController.stopManualContainers
+    	(E) StopClassContainers
+    		(O) ContainerLifecycleController.stopClassContainers
+
+BUILD SUCCESSFUL
+
+Total time: 16.383 secs
+```
+
+Wildfly log:
+```
+2015-03-24 12:26:03,214 INFO  [org.jboss.modules] (main) JBoss Modules version 1.3.3.Final
+2015-03-24 12:26:03,784 INFO  [org.jboss.msc] (main) JBoss MSC version 1.2.2.Final
+2015-03-24 12:26:04,027 INFO  [org.jboss.as] (MSC service thread 1-1) JBAS015899: WildFly 8.2.0.Final "Tweek" starting
+2015-03-24 12:26:04,035 DEBUG [org.jboss.as.config] (MSC service thread 1-1) Configured system properties:
+	[Standalone] = 
+	awt.toolkit = sun.awt.X11.XToolkit
+	file.encoding = UTF-8
+	file.encoding.pkg = sun.io
+	file.separator = /
+	java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+	java.awt.headless = true
+	java.awt.printerjob = sun.print.PSPrinterJob
+	java.class.path = /opt/devel/jboss/wildfly/jboss-modules.jar
+	java.class.version = 51.0
+	java.endorsed.dirs = /usr/local/jdk1.7.0_71/jre/lib/endorsed
+	java.ext.dirs = /usr/local/jdk1.7.0_71/jre/lib/ext:/usr/java/packages/lib/ext
+	java.home = /usr/local/jdk1.7.0_71/jre
+	java.io.tmpdir = /tmp
+	java.library.path = /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+	java.net.preferIPv4Stack = true
+	java.runtime.name = Java(TM) SE Runtime Environment
+	java.runtime.version = 1.7.0_71-b14
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 1.7
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Oracle Corporation
+	java.vendor.url = http://java.oracle.com/
+	java.vendor.url.bug = http://bugreport.sun.com/bugreport/
+	java.version = 1.7.0_71
+	java.vm.info = mixed mode
+	java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 1.7
+	java.vm.vendor = Oracle Corporation
+	java.vm.version = 24.71-b01
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	javax.xml.datatype.DatatypeFactory = __redirected.__DatatypeFactory
+	javax.xml.parsers.DocumentBuilderFactory = __redirected.__DocumentBuilderFactory
+	javax.xml.parsers.SAXParserFactory = __redirected.__SAXParserFactory
+	javax.xml.stream.XMLEventFactory = __redirected.__XMLEventFactory
+	javax.xml.stream.XMLInputFactory = __redirected.__XMLInputFactory
+	javax.xml.stream.XMLOutputFactory = __redirected.__XMLOutputFactory
+	javax.xml.transform.TransformerFactory = __redirected.__TransformerFactory
+	javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema = __redirected.__SchemaFactory
+	javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom = __redirected.__XPathFactory
+	jboss.home.dir = /opt/devel/jboss/wildfly
+	jboss.host.name = ice-blue
+	jboss.modules.dir = /opt/devel/jboss/wildfly/modules
+	jboss.modules.system.pkgs = com.sun.tools.attach,org.jboss.byteman
+	jboss.node.name = ice-blue
+	jboss.qualified.host.name = ice-blue
+	jboss.server.base.dir = /opt/devel/jboss/wildfly/standalone
+	jboss.server.config.dir = /opt/devel/jboss/wildfly/standalone/configuration
+	jboss.server.data.dir = /opt/devel/jboss/wildfly/standalone/data
+	jboss.server.deploy.dir = /opt/devel/jboss/wildfly/standalone/data/content
+	jboss.server.log.dir = /opt/devel/jboss/wildfly/standalone/log
+	jboss.server.name = ice-blue
+	jboss.server.persist.config = true
+	jboss.server.temp.dir = /opt/devel/jboss/wildfly/standalone/tmp
+	line.separator = 
+
+	logging.configuration = file:/opt/devel/jboss/wildfly/standalone/configuration/logging.properties
+	module.path = /opt/devel/jboss/wildfly/modules
+	org.jboss.boot.log.file = /opt/devel/jboss/wildfly/standalone/log/server.log
+	org.jboss.resolver.warning = true
+	org.xml.sax.driver = __redirected.__XMLReaderFactory
+	os.arch = amd64
+	os.name = Linux
+	os.version = 3.16.0-31-generic
+	path.separator = :
+	sun.arch.data.model = 64
+	sun.boot.class.path = /usr/local/jdk1.7.0_71/jre/lib/resources.jar:/usr/local/jdk1.7.0_71/jre/lib/rt.jar:/usr/local/jdk1.7.0_71/jre/lib/sunrsasign.jar:/usr/local/jdk1.7.0_71/jre/lib/jsse.jar:/usr/local/jdk1.7.0_71/jre/lib/jce.jar:/usr/local/jdk1.7.0_71/jre/lib/charsets.jar:/usr/local/jdk1.7.0_71/jre/lib/jfr.jar:/usr/local/jdk1.7.0_71/jre/classes:/usr/local/jdk1.7.0/lib/tools.jar
+	sun.boot.library.path = /usr/local/jdk1.7.0_71/jre/lib/amd64
+	sun.cpu.endian = little
+	sun.cpu.isalist = 
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = /opt/devel/jboss/wildfly/jboss-modules.jar -mp /opt/devel/jboss/wildfly/modules org.jboss.as.standalone -Djboss.home.dir=/opt/devel/jboss/wildfly -Djboss.server.base.dir=/opt/devel/jboss/wildfly/standalone
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = UTF-8
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	sun.os.patch.level = unknown
+	user.country = US
+	user.dir = /opt/devel/jboss/wildfly-8.2.0.Final/bin
+	user.home = /home/vlad
+	user.language = en
+	user.name = vlad
+	user.timezone = Europe/Berlin
+2015-03-24 12:26:04,037 DEBUG [org.jboss.as.config] (MSC service thread 1-1) VM Arguments: -D[Standalone] -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=com.sun.tools.attach,org.jboss.byteman -Djava.awt.headless=true -XX:+StartAttachListener -Xbootclasspath/a:/usr/local/jdk1.7.0/lib/tools.jar -Dorg.jboss.boot.log.file=/opt/devel/jboss/wildfly/standalone/log/server.log -Dlogging.configuration=file:/opt/devel/jboss/wildfly/standalone/configuration/logging.properties 
+2015-03-24 12:26:06,215 INFO  [org.jboss.as.server] (Controller Boot Thread) JBAS015888: Creating http management service using socket-binding (management-http)
+2015-03-24 12:26:06,275 INFO  [org.xnio] (MSC service thread 1-1) XNIO version 3.3.0.Final
+2015-03-24 12:26:06,294 INFO  [org.xnio.nio] (MSC service thread 1-1) XNIO NIO Implementation Version 3.3.0.Final
+2015-03-24 12:26:06,354 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 31) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+2015-03-24 12:26:06,356 INFO  [org.wildfly.extension.io] (ServerService Thread Pool -- 35) WFLYIO001: Worker 'default' has auto-configured to 4 core threads with 32 task threads based on your 2 available processors
+2015-03-24 12:26:06,363 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 36) JBAS010280: Activating Infinispan subsystem.
+2015-03-24 12:26:06,369 INFO  [org.jboss.as.jacorb] (ServerService Thread Pool -- 37) JBAS016300: Activating JacORB Subsystem
+2015-03-24 12:26:06,429 INFO  [org.jboss.as.connector.logging] (MSC service thread 1-3) JBAS010408: Starting JCA Subsystem (IronJacamar 1.1.9.Final)
+2015-03-24 12:26:06,439 INFO  [org.jboss.remoting] (MSC service thread 1-1) JBoss Remoting version 4.0.6.Final
+2015-03-24 12:26:06,473 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-3) JBAS010417: Started Driver service with driver-name = h2
+2015-03-24 12:26:06,511 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 43) JBAS012615: Activated the following JSF Implementations: [main]
+2015-03-24 12:26:06,570 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 47) JBAS011800: Activating Naming Subsystem
+2015-03-24 12:26:06,723 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 52) JBAS013171: Activating Security Subsystem
+2015-03-24 12:26:06,741 WARN  [org.jboss.as.txn] (ServerService Thread Pool -- 53) JBAS010153: Node identifier property is set to the default value. Please make sure it is unique.
+2015-03-24 12:26:06,744 INFO  [org.jboss.as.security] (MSC service thread 1-3) JBAS013170: Current PicketBox version=4.0.21.Final
+2015-03-24 12:26:06,800 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 55) JBAS015537: Activating WebServices Extension
+2015-03-24 12:26:06,830 INFO  [org.jboss.snowdrop] (ServerService Thread Pool -- 57) Activating Spring Deployer subsystem
+2015-03-24 12:26:06,920 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 31) JBAS010403: Deploying JDBC-compliant driver class oracle.jdbc.OracleDriver (version 11.2)
+2015-03-24 12:26:06,918 INFO  [org.jboss.as.naming] (MSC service thread 1-3) JBAS011802: Starting Naming Service
+2015-03-24 12:26:06,925 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 54) JBAS017502: Undertow 1.1.0.Final starting
+2015-03-24 12:26:06,987 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-3) JBAS017502: Undertow 1.1.0.Final starting
+2015-03-24 12:26:07,055 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-2) JBAS015400: Bound mail session [java:jboss/mail/Default]
+2015-03-24 12:26:07,068 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-1) JBAS010417: Started Driver service with driver-name = oracle
+2015-03-24 12:26:07,056 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 31) JBAS010403: Deploying JDBC-compliant driver class com.ibm.db2.jcc.DB2Driver (version 4.14)
+2015-03-24 12:26:07,129 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-2) JBAS010417: Started Driver service with driver-name = db2jcc
+2015-03-24 12:26:07,680 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 54) JBAS017527: Creating file handler for path /opt/devel/jboss/wildfly/welcome-content
+2015-03-24 12:26:07,729 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-2) JBAS017525: Started server default-server.
+2015-03-24 12:26:07,815 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-3) JBAS017531: Host default-host starting
+2015-03-24 12:26:08,151 INFO  [org.jboss.as.jacorb] (MSC service thread 1-4) JBAS016330: CORBA ORB Service started
+2015-03-24 12:26:08,181 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-2) JBAS017519: Undertow HTTP listener default listening on /127.0.0.1:8080
+2015-03-24 12:26:08,575 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221000: live server is starting with configuration HornetQ Configuration (clustered=false,backup=false,sharedStore=true,journalDirectory=/opt/devel/jboss/wildfly/standalone/data/messagingjournal,bindingsDirectory=/opt/devel/jboss/wildfly/standalone/data/messagingbindings,largeMessagesDirectory=/opt/devel/jboss/wildfly/standalone/data/messaginglargemessages,pagingDirectory=/opt/devel/jboss/wildfly/standalone/data/messagingpaging)
+2015-03-24 12:26:08,600 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221006: Waiting to obtain live lock
+2015-03-24 12:26:08,726 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221012: Using AIO Journal
+2015-03-24 12:26:08,826 INFO  [org.jboss.as.jacorb] (MSC service thread 1-2) JBAS016328: CORBA Naming Service started
+2015-03-24 12:26:08,898 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-2) JBAS015012: Started FileSystemDeploymentService for directory /opt/devel/jboss/wildfly/standalone/deployments
+2015-03-24 12:26:08,913 INFO  [io.netty.util.internal.PlatformDependent] (ServerService Thread Pool -- 58) Your platform does not provide complete low-level API for accessing direct buffers reliably. Unless explicitly requested, heap buffer will always be preferred to avoid potential system unstability.
+2015-03-24 12:26:08,988 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-2) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+2015-03-24 12:26:09,062 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221043: Adding protocol support CORE
+2015-03-24 12:26:09,087 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221043: Adding protocol support AMQP
+2015-03-24 12:26:09,104 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221043: Adding protocol support STOMP
+2015-03-24 12:26:09,621 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221034: Waiting to obtain live lock
+2015-03-24 12:26:09,622 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221035: Live Server Obtained live lock
+2015-03-24 12:26:09,804 INFO  [org.jboss.ws.common.management] (MSC service thread 1-3) JBWS022052: Starting JBoss Web Services - Stack CXF Server 4.3.2.Final
+2015-03-24 12:26:10,215 INFO  [org.jboss.messaging] (MSC service thread 1-2) JBAS011615: Registered HTTP upgrade for hornetq-remoting protocol handled by http-acceptor acceptor
+2015-03-24 12:26:10,219 INFO  [org.jboss.messaging] (MSC service thread 1-1) JBAS011615: Registered HTTP upgrade for hornetq-remoting protocol handled by http-acceptor-throughput acceptor
+2015-03-24 12:26:10,366 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221007: Server is now live
+2015-03-24 12:26:10,367 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 58) HQ221001: HornetQ Server version 2.4.5.FINAL (Wild Hornet, 124) [7128ab75-9da6-11e4-81fd-ddf11f60dcca] 
+2015-03-24 12:26:10,466 INFO  [org.jboss.as.messaging] (ServerService Thread Pool -- 59) JBAS011601: Bound messaging object to jndi name java:/ConnectionFactory
+2015-03-24 12:26:10,491 INFO  [org.jboss.as.messaging] (ServerService Thread Pool -- 60) JBAS011601: Bound messaging object to jndi name java:jboss/exported/jms/RemoteConnectionFactory
+2015-03-24 12:26:10,493 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 61) HQ221003: trying to deploy queue jms.queue.ExpiryQueue
+2015-03-24 12:26:10,513 INFO  [org.jboss.as.messaging] (ServerService Thread Pool -- 61) JBAS011601: Bound messaging object to jndi name java:/jms/queue/ExpiryQueue
+2015-03-24 12:26:10,514 INFO  [org.hornetq.core.server] (ServerService Thread Pool -- 62) HQ221003: trying to deploy queue jms.queue.DLQ
+2015-03-24 12:26:10,516 INFO  [org.jboss.as.messaging] (ServerService Thread Pool -- 62) JBAS011601: Bound messaging object to jndi name java:/jms/queue/DLQ
+2015-03-24 12:26:10,605 INFO  [org.jboss.as.connector.deployment] (MSC service thread 1-3) JBAS010406: Registered connection factory java:/JmsXA
+2015-03-24 12:26:10,698 INFO  [org.hornetq.ra] (MSC service thread 1-3) HornetQ resource adaptor started
+2015-03-24 12:26:10,699 INFO  [org.jboss.as.connector.services.resourceadapters.ResourceAdapterActivatorService$ResourceAdapterActivator] (MSC service thread 1-3) IJ020002: Deployed: file://RaActivatorhornetq-ra
+2015-03-24 12:26:10,702 INFO  [org.jboss.as.connector.deployment] (MSC service thread 1-2) JBAS010401: Bound JCA ConnectionFactory [java:/JmsXA]
+2015-03-24 12:26:10,703 INFO  [org.jboss.as.messaging] (MSC service thread 1-1) JBAS011601: Bound messaging object to jndi name java:jboss/DefaultJMSConnectionFactory
+2015-03-24 12:26:10,868 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015961: Http management interface listening on http://127.0.0.1:9990/management
+2015-03-24 12:26:10,875 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+2015-03-24 12:26:10,875 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: WildFly 8.2.0.Final "Tweek" started in 8153ms - Started 220 of 269 services (93 services are lazy, passive or on-demand)
+2015-03-24 12:26:44,440 INFO  [org.jboss.as.repository] (management-handler-thread - 1) JBAS014900: Content added at location /opt/devel/jboss/wildfly/standalone/data/content/81/b141cf7161c298b8da0f07f18b0bbd2aaf36e9/content
+2015-03-24 12:26:44,467 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) JBAS015876: Starting deployment of "normal.war" (runtime-name: "normal.war")
+2015-03-24 12:26:45,156 INFO  [org.jboss.weld.deployer] (MSC service thread 1-3) JBAS016002: Processing weld deployment normal.war
+2015-03-24 12:26:45,231 INFO  [org.hibernate.validator.internal.util.Version] (MSC service thread 1-3) HV000001: Hibernate Validator 5.1.3.Final
+2015-03-24 12:26:45,493 INFO  [org.jboss.weld.deployer] (MSC service thread 1-1) JBAS016005: Starting Services for CDI deployment: normal.war
+2015-03-24 12:26:45,548 INFO  [org.jboss.weld.Version] (MSC service thread 1-1) WELD-000900: 2.2.6 (Final)
+2015-03-24 12:26:45,604 INFO  [org.jboss.weld.deployer] (MSC service thread 1-3) JBAS016008: Starting weld service for deployment normal.war
+2015-03-24 12:26:47,370 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) JBAS017534: Registered web context: /normal
+2015-03-24 12:26:47,490 INFO  [org.jboss.as.server] (management-handler-thread - 1) JBAS018559: Deployed "normal.war" (runtime-name : "normal.war")
+2015-03-24 12:26:51,745 INFO  [org.jboss.as.repository] (management-handler-thread - 1) JBAS014900: Content added at location /opt/devel/jboss/wildfly/standalone/data/content/81/e6fb8a3f4d1796d939d7d621513dc168368505/content
+2015-03-24 12:26:51,750 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-2) JBAS015876: Starting deployment of "extra_ejb.war" (runtime-name: "extra_ejb.war")
+2015-03-24 12:26:52,093 INFO  [org.jboss.weld.deployer] (MSC service thread 1-2) JBAS016002: Processing weld deployment extra_ejb.war
+2015-03-24 12:26:52,104 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-2) JNDI bindings for session bean named SingletonEjb in deployment unit deployment "extra_ejb.war" are as follows:
+
+	java:global/extra_ejb/SingletonEjb!org.eu.ingwar.tools.arquillian.extension.suite.ejb.SingletonEjb
+	java:app/extra_ejb/SingletonEjb!org.eu.ingwar.tools.arquillian.extension.suite.ejb.SingletonEjb
+	java:module/SingletonEjb!org.eu.ingwar.tools.arquillian.extension.suite.ejb.SingletonEjb
+	java:global/extra_ejb/SingletonEjb
+	java:app/extra_ejb/SingletonEjb
+	java:module/SingletonEjb
+
+2015-03-24 12:26:52,107 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-2) JNDI bindings for session bean named TestBean in deployment unit deployment "extra_ejb.war" are as follows:
+
+	java:global/extra_ejb/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:app/extra_ejb/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:module/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:jboss/exported/extra_ejb/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:global/extra_ejb/TestBean
+	java:app/extra_ejb/TestBean
+	java:module/TestBean
+
+2015-03-24 12:26:52,249 INFO  [org.jboss.weld.deployer] (MSC service thread 1-3) JBAS016005: Starting Services for CDI deployment: extra_ejb.war
+2015-03-24 12:26:52,264 INFO  [org.jboss.weld.deployer] (MSC service thread 1-2) JBAS016008: Starting weld service for deployment extra_ejb.war
+2015-03-24 12:26:52,950 INFO  [org.jboss.ejb.client] (ServerService Thread Pool -- 65) JBoss EJB Client version 2.0.1.Final
+2015-03-24 12:26:53,039 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-2) JBAS017534: Registered web context: /extra_ejb
+2015-03-24 12:26:53,089 INFO  [org.jboss.as.server] (management-handler-thread - 1) JBAS018559: Deployed "extra_ejb.war" (runtime-name : "extra_ejb.war")
+2015-03-24 12:26:53,450 INFO  [stdout] (default task-2) extra Test1 B
+2015-03-24 12:26:53,570 INFO  [stdout] (default task-6) extra Test1 A
+2015-03-24 12:26:53,816 INFO  [stdout] (default task-8) Test2
+2015-03-24 12:26:53,941 INFO  [stdout] (default task-11) Test1
+2015-03-24 12:26:54,034 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-1) JBAS017535: Unregistered web context: /extra_ejb
+2015-03-24 12:26:54,067 INFO  [org.jboss.weld.deployer] (MSC service thread 1-2) JBAS016009: Stopping weld service for deployment extra_ejb.war
+2015-03-24 12:26:54,117 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-2) JBAS015877: Stopped deployment extra_ejb.war (runtime-name: extra_ejb.war) in 92ms
+2015-03-24 12:26:54,195 INFO  [org.jboss.as.repository] (management-handler-thread - 3) JBAS014901: Content removed from location /opt/devel/jboss/wildfly/standalone/data/content/81/e6fb8a3f4d1796d939d7d621513dc168368505/content
+2015-03-24 12:26:54,195 INFO  [org.jboss.as.server] (management-handler-thread - 3) JBAS018558: Undeployed "extra_ejb.war" (runtime-name: "extra_ejb.war")
+2015-03-24 12:26:54,207 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-3) JBAS017535: Unregistered web context: /normal
+2015-03-24 12:26:54,261 INFO  [org.jboss.weld.deployer] (MSC service thread 1-1) JBAS016009: Stopping weld service for deployment normal.war
+2015-03-24 12:26:54,286 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) JBAS015877: Stopped deployment normal.war (runtime-name: normal.war) in 82ms
+2015-03-24 12:26:54,314 INFO  [org.jboss.as.repository] (management-handler-thread - 4) JBAS014901: Content removed from location /opt/devel/jboss/wildfly/standalone/data/content/81/b141cf7161c298b8da0f07f18b0bbd2aaf36e9/content
+2015-03-24 12:26:54,315 INFO  [org.jboss.as.server] (management-handler-thread - 4) JBAS018558: Undeployed "normal.war" (runtime-name: "normal.war")
+2015-03-24 12:27:17,084 INFO  [org.jboss.as.repository] (management-handler-thread - 1) JBAS014900: Content added at location /opt/devel/jboss/wildfly/standalone/data/content/84/275d133e5dc67316813e68a4214212de0bbca9/content
+2015-03-24 12:27:17,089 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-1) JBAS015876: Starting deployment of "normal.war" (runtime-name: "normal.war")
+2015-03-24 12:27:17,281 INFO  [org.jboss.weld.deployer] (MSC service thread 1-2) JBAS016002: Processing weld deployment normal.war
+2015-03-24 12:27:17,334 INFO  [org.jboss.weld.deployer] (MSC service thread 1-1) JBAS016005: Starting Services for CDI deployment: normal.war
+2015-03-24 12:27:17,361 INFO  [org.jboss.weld.deployer] (MSC service thread 1-3) JBAS016008: Starting weld service for deployment normal.war
+2015-03-24 12:27:18,053 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) JBAS017534: Registered web context: /normal
+2015-03-24 12:27:18,126 INFO  [org.jboss.as.server] (management-handler-thread - 1) JBAS018559: Deployed "normal.war" (runtime-name : "normal.war")
+2015-03-24 12:27:21,723 INFO  [org.jboss.as.repository] (management-handler-thread - 1) JBAS014900: Content added at location /opt/devel/jboss/wildfly/standalone/data/content/b5/5999f8cc0d44229b083d2335982de0e729aa4e/content
+2015-03-24 12:27:21,725 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-3) JBAS015876: Starting deployment of "extra_ejb.war" (runtime-name: "extra_ejb.war")
+2015-03-24 12:27:21,969 INFO  [org.jboss.weld.deployer] (MSC service thread 1-4) JBAS016002: Processing weld deployment extra_ejb.war
+2015-03-24 12:27:21,977 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-4) JNDI bindings for session bean named SingletonEjb in deployment unit deployment "extra_ejb.war" are as follows:
+
+	java:global/extra_ejb/SingletonEjb!org.eu.ingwar.tools.arquillian.extension.suite.ejb.SingletonEjb
+	java:app/extra_ejb/SingletonEjb!org.eu.ingwar.tools.arquillian.extension.suite.ejb.SingletonEjb
+	java:module/SingletonEjb!org.eu.ingwar.tools.arquillian.extension.suite.ejb.SingletonEjb
+	java:global/extra_ejb/SingletonEjb
+	java:app/extra_ejb/SingletonEjb
+	java:module/SingletonEjb
+
+2015-03-24 12:27:21,982 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-4) JNDI bindings for session bean named TestBean in deployment unit deployment "extra_ejb.war" are as follows:
+
+	java:global/extra_ejb/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:app/extra_ejb/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:module/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:jboss/exported/extra_ejb/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject
+	java:global/extra_ejb/TestBean
+	java:app/extra_ejb/TestBean
+	java:module/TestBean
+
+2015-03-24 12:27:22,063 INFO  [org.jboss.weld.deployer] (MSC service thread 1-4) JBAS016005: Starting Services for CDI deployment: extra_ejb.war
+2015-03-24 12:27:22,081 INFO  [org.jboss.weld.deployer] (MSC service thread 1-2) JBAS016008: Starting weld service for deployment extra_ejb.war
+2015-03-24 12:27:22,799 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-2) JBAS017534: Registered web context: /extra_ejb
+2015-03-24 12:27:22,883 INFO  [org.jboss.as.server] (management-handler-thread - 1) JBAS018559: Deployed "extra_ejb.war" (runtime-name : "extra_ejb.war")
+2015-03-24 12:27:23,386 INFO  [stdout] (default task-13) extra Test1 B
+2015-03-24 12:27:23,744 INFO  [stdout] (default task-19) extra Test1 A
+2015-03-24 12:27:24,353 INFO  [stdout] (default task-22) Test2
+2015-03-24 12:27:24,525 INFO  [stdout] (default task-27) Test1
+```
+
+
+Many thanks
+Vlad
