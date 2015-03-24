@@ -23,19 +23,19 @@ import org.eu.ingwar.tools.arquillian.extension.suite.Deployments;
 import org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.testng.Arquillian;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+//import org.testng.runner.RunWith;
 
-@RunWith(Arquillian.class)
+//@RunWith(Arquillian.class)
 public class ExtensionExtra1Test extends Deployments {
 
     @AfterClass
     static public void afterClass() {};
-    @After
+    @AfterMethod
     public void after() {};
     @Test
     @OperateOnDeployment("extra")

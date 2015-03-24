@@ -25,18 +25,18 @@ import org.eu.ingwar.tools.arquillian.extension.suite.Deployments;
 import org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.experimental.categories.Category;
+import org.jboss.arquillian.testng.Arquillian;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+//import org.testng.runner.RunWith;
+//import org.testng.experimental.categories.Category;
 
-@RunWith(Arquillian.class)
+//@RunWith(Arquillian.class)
 public class Extension1Test extends Deployments {
 
     @Test
     @OperateOnDeployment("normal")
-    @Category(AlphaGroup.class)
+    //@Category(AlphaGroup.class)
     public void shouldInject(InjectedObject bm) {
         Assert.assertNotNull(bm);
         Assert.assertEquals(NormalInjectedObject.NAME, bm.getName());

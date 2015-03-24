@@ -36,10 +36,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.AfterClass;
+import org.testng.annotations.AfterClass;
+import org.jboss.arquillian.testng.Arquillian;
 
 @ArquillianSuiteDeployment
-public class Deployments {
+public class Deployments extends Arquillian {
 
     @AfterClass
     static public void afterClass() {

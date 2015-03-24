@@ -4,10 +4,10 @@ import org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtra1Test;
 import org.eu.ingwar.tools.arquillian.extension.suite.extra.ExtensionExtraEjbTest;
 import org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension1Test;
 import org.eu.ingwar.tools.arquillian.extension.suite.normal.Extension2Test;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterClass;
+//import org.testng.runner.RunWith;
+//import org.testng.runners.Suite;
 
 //@RunWith(Suite.class)
 //@Suite.SuiteClasses({PartnerLocalServiceJTest.class, PartnerMdbTest.class})
@@ -16,7 +16,7 @@ public class AllTests {
     @AfterClass
     static public void afterClass() {};
 
-    @After
+    @AfterMethod
     public void after() {
         System.out.println("after ...");
     }

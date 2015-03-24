@@ -61,20 +61,23 @@ dependencies {
     //providedCompile "org.jboss.spec:jboss-javaee-7.0:${project.versions.jboss.javaee_spec}"
     providedCompile "org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:1.0.0.Final"
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    //testCompile group: 'junit', name: 'junit', version: '4.11'
+	testCompile 'org.testng:testng:6.8.+'
+
 
     testCompile "org.jboss.arquillian.container:arquillian-container-test-impl-base"
     testCompile "org.jboss.arquillian.core:arquillian-core-impl-base"
     testCompile "org.jboss.arquillian.protocol:arquillian-protocol-servlet"
-    testCompile "org.jboss.arquillian.junit:arquillian-junit-container"
+    //testCompile "org.jboss.arquillian.junit:arquillian-junit-container"
+    testCompile "org.jboss.arquillian.testng:arquillian-testng-container"
     //test suite
     testCompile ('org.eu.ingwar.tools:arquillian-suite-extension:1.1.2') {
         exclude module:'shrinkwrap-resolver-impl-maven'
         exclude module:'shrinkwrap-resolver-impl-maven-archive'
     }
 
-    //testCompile 'org.wildfly:wildfly-arquillian-container-managed:8.2.0.Final'
-    testCompile 'org.wildfly:wildfly-arquillian-container-remote:8.2.0.Final'
+    testCompile 'org.wildfly:wildfly-arquillian-container-managed:8.2.0.Final'
+    //testCompile 'org.wildfly:wildfly-arquillian-container-remote:8.2.0.Final'
 
     testCompile 'org.slf4j:slf4j-log4j12:latest.release'
 
@@ -93,10 +96,28 @@ test {
     //jvmArgs '-Darquillian.launch=standalone'
 
 
-    useJUnit {
+    useTestNG {
         environment 'JBOSS_HOME', project.versions.jboss.home
     }
 
+
+  beforeTest { descriptor ->
+     logger.lifecycle("Running test: " + descriptor)
+  }
+
+/*
+  // listen to standard out and standard error of the test JVM(s)
+  onOutput { descriptor, event ->
+     logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+  }
+
+    afterTest { desc, result -> 
+        println "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+*/
+   testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 

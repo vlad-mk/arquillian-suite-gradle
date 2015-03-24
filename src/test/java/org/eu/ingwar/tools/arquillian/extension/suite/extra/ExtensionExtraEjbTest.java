@@ -24,12 +24,12 @@ import org.eu.ingwar.tools.arquillian.extension.suite.Deployments;
 import org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.testng.Arquillian;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+//import org.testng.runner.RunWith;
 
-@RunWith(Arquillian.class)
+//@RunWith(Arquillian.class)
 public class ExtensionExtraEjbTest extends Deployments {
 
     //@EJB(lookup = "java:global/test-war-module-full/test-war-module/TestBean!org.eu.ingwar.tools.arquillian.extension.suite.inject.InjectedObject")
