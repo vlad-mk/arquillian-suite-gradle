@@ -9,12 +9,9 @@ import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/**
- * Created by b1859 - Vladislav Mikerin on 3/3/15.
- */
-@RunWith(Suite.class)
+//@RunWith(Suite.class)
 //@Suite.SuiteClasses({PartnerLocalServiceJTest.class, PartnerMdbTest.class})
-@Suite.SuiteClasses({Extension1Test.class, Extension2Test.class, ExtensionExtra1Test.class, ExtensionExtraEjbTest.class})
+//@Suite.SuiteClasses({Extension1Test.class, Extension2Test.class, ExtensionExtra1Test.class, ExtensionExtraEjbTest.class})
 public class AllTests {
     @AfterClass
     static public void afterClass() {};
