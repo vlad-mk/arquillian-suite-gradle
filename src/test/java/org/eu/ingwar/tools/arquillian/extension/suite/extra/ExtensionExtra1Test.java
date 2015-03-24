@@ -42,6 +42,6 @@ public class ExtensionExtra1Test extends Deployments {
     public void shouldInject(InjectedObject bm) {
         Assert.assertNotNull(bm);
         Assert.assertEquals(ExtendedInjectedObject.NAME, bm.getName());
-        System.out.println("extra Test1");
+        System.out.println("extra Test1 A");
     }
 }

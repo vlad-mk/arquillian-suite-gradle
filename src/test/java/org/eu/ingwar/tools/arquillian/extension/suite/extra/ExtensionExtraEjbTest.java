@@ -41,6 +41,6 @@ public class ExtensionExtraEjbTest extends Deployments {
     public void shouldInject() {
         Assert.assertNotNull(bm);
         Assert.assertEquals("ejb", bm.getName());
-        System.out.println("extra Test1");
+        System.out.println("extra Test1 B");
     }
 }
