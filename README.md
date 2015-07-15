@@ -53,3 +53,42 @@ WARNING: NOT Blocking UnDeployManagedDeployments event org.jboss.arquillian.cont
 (E) ManagerStopping
 
 ```
+
+Gradle realization of JUnit tests(JUnitTestClassExecuter.java), creates a notifier for each class:
+
+```
+        Runner runner = request.getRunner();
+        //In case of no matching methods junit will return a ErrorReportingRunner for org.junit.runner.manipulation.Filter.class.
+        //Will be fixed with adding class filters
+        if (!org.junit.runner.manipulation.Filter.class.getName().equals(runner.getDescription().getDisplayName())) {
+            RunNotifier notifier = new RunNotifier();
+            notifier.addListener(listener);
+            runner.run(notifier);
+        }
+
+```
+
+maven surfire (JUnit4Provider.java), creates a notifier for a test set:
+
+```
+        JUnit4RunListener jUnit4TestSetReporter = new JUnit4RunListener( reporter );
+
+        Result result = new Result();
+        RunNotifier runNotifier = getRunNotifier( jUnit4TestSetReporter, result, customRunListeners );
+
+        runNotifier.fireTestRunStarted( createTestsDescription() );
+
+        for ( Class aTestsToRun : testsToRun )
+        {
+            executeTestSet( aTestsToRun, reporter, runNotifier );
+        }
+
+        runNotifier.fireTestRunFinished( result );
+
+        JUnit4RunListener.rethrowAnyTestMechanismFailures( result );
+
+        closeRunNotifier( jUnit4TestSetReporter, customRunListeners );
+        return reporterFactory.close();
+
+
+```
